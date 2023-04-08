@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,8 +20,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.URMController;
 
-public class URMView extends JFrame {
-
+public class URMView extends JFrame implements WindowListener{
+	private LoginView parent;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
@@ -33,23 +35,16 @@ public class URMView extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					URMView frame = new URMView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public URMView(LoginView login) {
+		this.addWindowListener(this);
+		this.parent = login;
+		this.init();
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public URMView() {
+	public void init() {
 		ActionListener ac = new URMController(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
@@ -220,6 +215,48 @@ public class URMView extends JFrame {
 		JButton btnNewButton_9 = new JButton("Role's privileges");
 		btnNewButton_9.setBounds(0, 387, 119, 55);
 		panel_8.add(btnNewButton_9);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		this.parent.dispose();
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		this.parent.dispose();
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
