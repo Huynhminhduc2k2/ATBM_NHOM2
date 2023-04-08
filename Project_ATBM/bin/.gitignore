@@ -1,6 +1,5 @@
-/controller/
 /database/
-/lib/
 /model/
 /test/
 /view/
+/controller/
