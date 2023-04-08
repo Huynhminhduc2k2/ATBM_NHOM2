@@ -9,10 +9,23 @@ import model.UserModel;
 import oracle.jdbc.driver.OracleDriver;
 
 public class JDBCUtil {
+//	private static String dbURL = "jdbc:oracle:thin:@localhost:1521:XE";
 	private static JDBCUtil instance = null;
-	private static String dbURL = "jdbc:oracle:thin:@localhost:1521:XE";
+	private static String dbURL = "jdbc:oracle:thin:@localhost:1521";
+	private static boolean isChecked = false;
 
-	private JDBCUtil() {
+	private JDBCUtil(String DB) {
+		if (isChecked) {
+			return;
+		}
+		if (DB.equals("XE")) {
+			dbURL += ":XE";
+		} else {
+			dbURL += "/" + DB;
+		}
+		isChecked = true;
+		System.out.println(dbURL);
+
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
 		} catch (SQLException e) {
@@ -20,38 +33,24 @@ public class JDBCUtil {
 		}
 	}
 
-	public static JDBCUtil getInstance() {
+	public static JDBCUtil getInstance(String DB) {
 		if (instance == null)
-			instance = new JDBCUtil();
+			instance = new JDBCUtil(DB);
 		return instance;
 	}
 
-	public static Connection getConnection(String username, String password) {
-		try {
-			return DriverManager.getConnection(dbURL, username, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static Connection getConnection(UserModel usr) {
-		Connection c = null;
-
+	public Connection getConnection(UserModel usr) {
 		try {
 			// Đăng ký Oracle Driver với DriverManager
-			DriverManager.registerDriver(new OracleDriver());
+//			DriverManager.registerDriver(new OracleDriver());
 
-			// Cac thong so
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-//			String url = "jdbc:oracle:thin:@localhost:1521/ORCLPDB1";
-
-			// Tao ket noi
-			return DriverManager.getConnection(url, usr.getUsername(), usr.getPassword());
+			// Tạo kết nối
+			return DriverManager.getConnection(dbURL, usr.getUsername(), usr.getPassword());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return c;
+		return null;
 	}
 
 	public static void closeConnection(Connection c) {
@@ -59,6 +58,7 @@ public class JDBCUtil {
 			try {
 				c.close();
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

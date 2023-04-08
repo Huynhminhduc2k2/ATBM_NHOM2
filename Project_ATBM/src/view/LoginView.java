@@ -21,8 +21,7 @@ import database.JDBCUtil;
 import model.UserModel;
 
 public class LoginView extends JFrame {
-	private JTextField jTextArea_username;
-	private JTextField jTextArea_password;
+	private JTextField jTextArea_username, jTextArea_password, jTextArea_DB;
 	private UserModel userModel;
 
 	public LoginView() throws HeadlessException {
@@ -46,6 +45,8 @@ public class LoginView extends JFrame {
 		jLabel_username.setFont(font);
 		JLabel jLabel_password = new JLabel("Password", SwingConstants.CENTER);
 		jLabel_password.setFont(font);
+		JLabel jLabel_DB = new JLabel("Database", SwingConstants.CENTER);
+		jLabel_DB.setFont(font);
 		JLabel jLabel_empty1 = new JLabel();
 		jLabel_empty1.setFont(font);
 		JLabel jLabel_empty2 = new JLabel();
@@ -60,6 +61,8 @@ public class LoginView extends JFrame {
 		jTextArea_username.setFont(font);
 		jTextArea_password = new JTextField();
 		jTextArea_password.setFont(font);
+		jTextArea_DB = new JTextField();
+		jTextArea_DB.setFont(font);
 
 		// Button
 		JButton jButton = new JButton("Login");
@@ -67,11 +70,13 @@ public class LoginView extends JFrame {
 		jButton.addActionListener(loginController);
 
 		JPanel jPanel = new JPanel();
-		jPanel.setLayout(new GridLayout(5, 1));
+		jPanel.setLayout(new GridLayout(7, 1));
 		jPanel.add(jLabel_username);
 		jPanel.add(jTextArea_username);
 		jPanel.add(jLabel_password);
 		jPanel.add(jTextArea_password);
+		jPanel.add(jLabel_DB);
+		jPanel.add(jTextArea_DB);
 		jPanel.add(jButton);
 
 		this.setLayout(new BorderLayout(150, 150));
@@ -84,9 +89,9 @@ public class LoginView extends JFrame {
 	}
 
 	public void setLogin() {
-		userModel = new UserModel(jTextArea_username.getText(), jTextArea_password.getText());
+		userModel = new UserModel(jTextArea_username.getText(), jTextArea_password.getText(), jTextArea_DB.getText());
 
-		Connection connection = JDBCUtil.getConnection(userModel);
+		Connection connection = JDBCUtil.getInstance(jTextArea_DB.getText()).getConnection(userModel);
 
 		// Buoc 2: tao ra doi tuong statement
 		try {

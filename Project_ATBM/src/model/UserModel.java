@@ -1,12 +1,21 @@
 package model;
 
 public class UserModel {
-	private String username, password;
+	private String username, password, DB;
 
-	public UserModel(String username, String password) {
+	public UserModel(String username, String password, String DB) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.DB = DB;
+	}
+
+	public String getDB() {
+		return DB;
+	}
+
+	public void setDB(String dB) {
+		DB = dB;
 	}
 
 	public String getUsername() {
