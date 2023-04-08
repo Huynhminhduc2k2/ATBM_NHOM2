@@ -17,7 +17,6 @@ public class URMController implements ActionListener {
 		// TODO Auto-generated method stub
 		String src = e.getActionCommand();
 		if (src.equals("Create user")) {
-
 		}
 	}
 

@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,12 +23,17 @@ import database.JDBCUtil;
 import model.UserModel;
 
 public class LoginView extends JFrame {
+	private LoginController loginController;
 	private JTextField jTextArea_username, jTextArea_password, jTextArea_DB;
 	private UserModel userModel;
 
 	public LoginView() throws HeadlessException {
 		super();
 		this.init();
+	}
+	
+	public ActionListener getAC() {
+		return this.loginController;
 	}
 
 	private void init() {
@@ -38,7 +45,7 @@ public class LoginView extends JFrame {
 		Font font = new Font("Arial", Font.PLAIN, 20);
 
 		// Tạo controller
-		LoginController loginController = new LoginController(this);
+		loginController = new LoginController(this);
 
 		// Label
 		JLabel jLabel_username = new JLabel("Username", SwingConstants.CENTER);
@@ -109,11 +116,18 @@ public class LoginView extends JFrame {
 			// Buoc 5: ngat ket noi
 			JDBCUtil.closeConnection(connection);
 		} catch (SQLException e) {
+			System.out.println(1);
 			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) {
 		new LoginView();
+	}
+
+	public void toURM() {
+		URMView urm = new URMView(this);
+		this.setVisible(false);
+		urm.setVisible(true);
 	}
 }
