@@ -47,6 +47,7 @@ public class JDBCUtil {
 			// Tạo kết nối
 			return DriverManager.getConnection(dbURL, usr.getUsername(), usr.getPassword());
 		} catch (SQLException e) {
+			System.out.println("Hello cac ban");
 			e.printStackTrace();
 		}
 

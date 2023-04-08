@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -89,27 +90,15 @@ public class LoginView extends JFrame {
 	}
 
 	public void setLogin() {
-		userModel = new UserModel(jTextArea_username.getText(), jTextArea_password.getText(), jTextArea_DB.getText());
+		userModel = UserModel.getInstance(jTextArea_username.getText(), jTextArea_password.getText(),
+				jTextArea_DB.getText());
+
+		System.out.println(userModel.getUsername() + " " + userModel.getPassword());
 
 		Connection connection = JDBCUtil.getInstance(jTextArea_DB.getText()).getConnection(userModel);
 
-		// Buoc 2: tao ra doi tuong statement
-		try {
-			Statement st = connection.createStatement();
-
-			// Buoc 3: thuc thi 1 cau lenh SQL
-			String sql = "select * from ROLE_SYS_PRIVS ";
-
-			ResultSet check = st.executeQuery(sql);
-
-			while (check.next()) {
-				// Buoc 4: xu ly ket qua tra ve
-				System.out.println(check.getString("privilege"));
-			}
-			// Buoc 5: ngat ket noi
-			JDBCUtil.closeConnection(connection);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (connection == null) {
+			System.out.println("Khong dang nhap thanh cong");
 		}
 	}
 
