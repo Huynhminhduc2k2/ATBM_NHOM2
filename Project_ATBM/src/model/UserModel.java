@@ -20,7 +20,6 @@ public class UserModel {
 	public static UserModel getInstance(String username, String password, String DB) {
 		if (instance == null) {
 			instance = new UserModel(username, password, DB);
-			System.out.println("Hello 1");
 		}
 		return instance;
 	}

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -43,6 +44,10 @@ public class URMView extends JFrame implements WindowListener {
 		this.parent = login;
 		this.init();
 	}
+	
+	public URMView() {
+		this.init();
+	}
 
 	/**
 	 * Create the frame.
@@ -50,7 +55,10 @@ public class URMView extends JFrame implements WindowListener {
 	public void init() {
 		ActionListener ac = new URMController(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+//		setBounds(100, 100, 800, 600);
+		this.setLocationRelativeTo(null);
+//		this.setPreferredSize(new Dimension(800, 600));
+		setSize(800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -95,7 +103,8 @@ public class URMView extends JFrame implements WindowListener {
 		panel_4.add(textField);
 		textField.setColumns(10);
 
-		JButton btnNewButton = new JButton("Find");
+		JButton btnNewButton = new JButton("Find user");
+		btnNewButton.addActionListener(ac);
 		panel_4.add(btnNewButton);
 
 		table = new JTable();
@@ -132,14 +141,17 @@ public class URMView extends JFrame implements WindowListener {
 
 		JButton btnNewButton_2 = new JButton("Delete user");
 		btnNewButton_2.setBounds(0, 240, 119, 55);
+		btnNewButton_2.addActionListener(ac);
 		panel_5.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Change password");
 		btnNewButton_3.setBounds(0, 314, 119, 55);
+		btnNewButton_3.addActionListener(ac);
 		panel_5.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("User's privileges");
 		btnNewButton_4.setBounds(0, 387, 119, 55);
+		btnNewButton_4.addActionListener(ac);
 		panel_5.add(btnNewButton_4);
 
 		JPanel panel_2 = new JPanel();
@@ -169,7 +181,8 @@ public class URMView extends JFrame implements WindowListener {
 		panel_7.add(textField_3);
 		textField_3.setColumns(10);
 
-		JButton btnNewButton_5 = new JButton("Find");
+		JButton btnNewButton_5 = new JButton("Find role");
+		btnNewButton_5.addActionListener(ac);
 		panel_7.add(btnNewButton_5);
 
 		table_1 = new JTable();
@@ -200,24 +213,26 @@ public class URMView extends JFrame implements WindowListener {
 		textField_5.setColumns(10);
 
 		JButton btnNewButton_6 = new JButton("Create role");
-		btnNewButton_6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnNewButton_6.addActionListener(ac);
 		btnNewButton_6.setBounds(0, 166, 119, 55);
 		panel_8.add(btnNewButton_6);
 
 		JButton btnNewButton_7 = new JButton("Delete role");
+		btnNewButton_7.addActionListener(ac);
 		btnNewButton_7.setBounds(0, 240, 119, 55);
 		panel_8.add(btnNewButton_7);
 
 		JButton btnNewButton_8 = new JButton("Change password");
+		btnNewButton_8.addActionListener(ac);
 		btnNewButton_8.setBounds(0, 314, 119, 55);
 		panel_8.add(btnNewButton_8);
 
 		JButton btnNewButton_9 = new JButton("Role's privileges");
 		btnNewButton_9.setBounds(0, 387, 119, 55);
+		btnNewButton_9.addActionListener(ac);
 		panel_8.add(btnNewButton_9);
+		
+		this.setVisible(true);
 	}
 
 	@Override
@@ -265,12 +280,14 @@ public class URMView extends JFrame implements WindowListener {
 	public static void main(String[] args) {
 		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
 
-		System.out.println(userModel.getUsername() + " " + userModel.getPassword());
-
 		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
 
 		if (connection == null) {
 			System.out.println("Khong dang nhap thanh cong");
 		}
+		else {
+			System.out.println("Dang nhap thanh cong");
+		}
+		new URMView();
 	}
 }
