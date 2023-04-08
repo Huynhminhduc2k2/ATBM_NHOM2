@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Connection;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,8 +20,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controller.URMController;
+import database.JDBCUtil;
+import model.UserModel;
 
-public class URMView extends JFrame implements WindowListener{
+public class URMView extends JFrame implements WindowListener {
 	private LoginView parent;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -220,7 +223,7 @@ public class URMView extends JFrame implements WindowListener{
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -238,25 +241,36 @@ public class URMView extends JFrame implements WindowListener{
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	public static void main(String[] args) {
+		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
+
+		System.out.println(userModel.getUsername() + " " + userModel.getPassword());
+
+		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
+
+		if (connection == null) {
+			System.out.println("Khong dang nhap thanh cong");
+		}
+	}
 }

@@ -32,7 +32,7 @@ public class LoginController implements ActionListener {
 			JButton ojbtn = new JButton("OK");
 			message.setLayout(new GridLayout(2, 1, 10, 10));
 			message.setLocationRelativeTo(null);
-			
+
 			ojbtn.addActionListener(this.loginView.getAC());
 
 			message.add(mess);
@@ -40,7 +40,7 @@ public class LoginController implements ActionListener {
 			message.setSize(100, 100);
 			message.setVisible(true);
 		} else if (src.equals("OK")) {
-			this.message.dispose();//destroy dialogs
+			this.message.dispose();// destroy dialogs
 			this.loginView.toURM();
 		}
 	}
