@@ -33,7 +33,7 @@ import model.UserModel;
 public class URMView extends JFrame implements WindowListener {
 	private LoginView parent;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField findUserTextField;
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -41,6 +41,7 @@ public class URMView extends JFrame implements WindowListener {
 	private JTable table_1;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private JScrollPane js1;
 
 	/**
 	 * Launch the application.
@@ -105,9 +106,9 @@ public class URMView extends JFrame implements WindowListener {
 		panel_3.add(panel_4);
 		panel_4.setLayout(new GridLayout(1, 2, 0, 0));
 
-		textField = new JTextField();
-		panel_4.add(textField);
-		textField.setColumns(10);
+		findUserTextField = new JTextField();
+		panel_4.add(findUserTextField);
+		findUserTextField.setColumns(10);
 
 		JButton btnNewButton = new JButton("Find user");
 		btnNewButton.addActionListener(ac);
@@ -120,10 +121,10 @@ public class URMView extends JFrame implements WindowListener {
 		table = new JTable(model);
 		table.setBounds(0, 72, 268, 444);
 		panel_1.add(new JScrollPane(table));
-		JScrollPane js = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		js1 = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		js.setBounds(0, 72, 268, 444);
-		panel_1.add(js);
+		js1.setBounds(0, 72, 268, 444);
+		panel_1.add(js1);
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(268, 72, 119, 444);
@@ -246,22 +247,30 @@ public class URMView extends JFrame implements WindowListener {
 		btnNewButton_9.addActionListener(ac);
 		panel_8.add(btnNewButton_9);
 
+		this.setJTableUser();
 		this.setVisible(true);
 	}
 
-	private void setJTableUser() {
-		UserModel userModel = UserModel.getInstance("", "", "");
+	private void clearJTableUser() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		table.repaint();
+		js1.revalidate();
+	}
 
-		System.out.println(userModel.getUsername() + " " + userModel.getPassword());
+	private void setJTableUser() {
+		this.clearJTableUser();
+
+		UserModel userModel = UserModel.getInstance("", "", "");
 
 		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
 
 		try {
-			String sql = "select * from DBa_users";
+			String sql = "select username, user_id from DBa_users";
 
 			PreparedStatement st = connection.prepareStatement(sql);
 
-			ResultSet rs = st.executeQuery(sql);
+			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			DefaultTableModel dTModel = (DefaultTableModel) table.getModel();
 
@@ -271,16 +280,57 @@ public class URMView extends JFrame implements WindowListener {
 				colName[i] = rsmd.getColumnName(i + 1);
 			}
 			dTModel.setColumnIdentifiers(colName);
-			
 
 			while (rs.next()) {
-				System.out.println(rs.getString("username"));
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+				}
+				dTModel.addRow(rowValue);
 			}
 			// Buoc 5: ngat ket noi
 			JDBCUtil.closeConnection(connection);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
 
-			userModel = UserModel.getInstance("", "", "");
-			System.out.println(userModel.getUsername() + " " + userModel.getPassword());
+	public void findByUser() {
+		this.clearJTableUser();
+
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			String sql = "select username, user_id from DBa_users where username = upper(?)";
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setString(1, this.findUserTextField.getText());
+
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+			}
+			dTModel.setColumnIdentifiers(colName);
+
+			while (rs.next()) {
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
+				}
+				dTModel.addRow(rowValue);
+			}
+			
+			this.findUserTextField.setText("");
+			
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
 		} catch (SQLException err) {
 			err.printStackTrace();
 		}

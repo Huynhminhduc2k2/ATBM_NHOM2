@@ -25,30 +25,7 @@ public class URMController implements ActionListener {
 		if (src.equals("Create user")) {
 			System.out.println("create user");
 		} else if (src.equals("Find user")) {
-			UserModel userModel = UserModel.getInstance("", "", "");
-
-			System.out.println(userModel.getUsername() + " " + userModel.getPassword());
-
-			Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
-		
-			try {
-				String sql = "select * from DBa_users";
-
-				PreparedStatement st = connection.prepareStatement(sql);
-
-				ResultSet check = st.executeQuery(sql);
-				Object[][] data;
-				while (check.next()) {
-					System.out.println(check.getString("username"));
-				}
-				// Buoc 5: ngat ket noi
-				JDBCUtil.closeConnection(connection);
-
-				userModel = UserModel.getInstance("", "", "");
-				System.out.println(userModel.getUsername() + " " + userModel.getPassword());
-			} catch (SQLException err) {
-				err.printStackTrace();
-			}
+			this.urmview.findByUser();
 		}
 	}
 
