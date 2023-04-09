@@ -438,6 +438,7 @@ public class URMView extends JFrame implements WindowListener {
 			System.out.println("Khong dang nhap thanh cong");
 		} else {
 			System.out.println("Dang nhap thanh cong");
+			System.out.println("Hello world");
 		}
 		new URMView();
 	}
