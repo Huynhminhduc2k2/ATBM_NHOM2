@@ -202,7 +202,7 @@ public class UserPrivilegeList extends JFrame {
 		
 		grantPrivilege_Button = new JButton("Grant");
 		grantPrivilege_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		grantPrivilege_Button.setBounds(100, 200, 85, 21);
+		grantPrivilege_Button.setBounds(110, 200, 85, 21);
 		buttonPane.add(grantPrivilege_Button);
 		
 		JButton revokePrivilege_Button = new JButton("Revoke");
