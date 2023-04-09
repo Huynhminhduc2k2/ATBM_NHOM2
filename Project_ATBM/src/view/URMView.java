@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,8 +37,8 @@ public class URMView extends JFrame implements WindowListener {
 	private JPanel contentPane;
 	private JTextField findUserTextField;
 	private JTable table;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textField_Username;
+	private JTextField textField_UserPassword;
 	private JTextField textField_3;
 	private JTable table_1;
 	private JTextField textField_4;
@@ -135,19 +137,19 @@ public class URMView extends JFrame implements WindowListener {
 		lblNewLabel_3.setBounds(0, 2, 119, 55);
 		panel_5.add(lblNewLabel_3);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(0, 51, 119, 20);
-		panel_5.add(textField_1);
-		textField_1.setColumns(10);
+		textField_Username = new JTextField();
+		textField_Username.setBounds(0, 51, 119, 20);
+		panel_5.add(textField_Username);
+		textField_Username.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Password:");
 		lblNewLabel_4.setBounds(0, 76, 119, 55);
 		panel_5.add(lblNewLabel_4);
 
-		textField_2 = new JTextField();
-		textField_2.setBounds(0, 122, 119, 20);
-		panel_5.add(textField_2);
-		textField_2.setColumns(10);
+		textField_UserPassword = new JTextField();
+		textField_UserPassword.setBounds(0, 122, 119, 20);
+		panel_5.add(textField_UserPassword);
+		textField_UserPassword.setColumns(10);
 
 		JButton btnNewButton_1 = new JButton("Create user");
 		btnNewButton_1.setBounds(0, 166, 119, 55);
@@ -326,9 +328,58 @@ public class URMView extends JFrame implements WindowListener {
 				}
 				dTModel.addRow(rowValue);
 			}
-			
+
 			this.findUserTextField.setText("");
-			
+
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
+
+	public void createUser() {
+		this.clearJTableUser();
+
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			CallableStatement st = connection.prepareCall("{CALL SYS.create_user(?, ?, ?, ?)}");
+			st.registerOutParameter(1, Types.INTEGER);
+			st.setString(2, userModel.getUsername());
+			st.setString(3, userModel.getPassword());
+			st.setInt(4, userModel.getIsCommonUser() ? 0 : 1);
+			st.execute();
+
+			int state = st.getInt(1);
+			if (state != 1) {
+				return;
+			}
+
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+			}
+			dTModel.setColumnIdentifiers(colName);
+
+			while (rs.next()) {
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
+				}
+				dTModel.addRow(rowValue);
+			}
+
+			this.findUserTextField.setText("");
+
 			// Buoc 5: ngat ket noi
 			JDBCUtil.closeConnection(connection);
 		} catch (SQLException err) {
