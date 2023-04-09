@@ -23,7 +23,7 @@ public class URMController implements ActionListener {
 		// TODO Auto-generated method stub
 		String src = e.getActionCommand();
 		if (src.equals("Create user")) {
-			System.out.println("create user");
+			this.urmview.createUser();
 		} else if (src.equals("Find user")) {
 			this.urmview.findByUser();
 		}
