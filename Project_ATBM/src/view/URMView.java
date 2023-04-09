@@ -10,15 +10,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import controller.URMController;
 import database.JDBCUtil;
@@ -44,7 +50,7 @@ public class URMView extends JFrame implements WindowListener {
 		this.parent = login;
 		this.init();
 	}
-	
+
 	public URMView() {
 		this.init();
 	}
@@ -55,10 +61,10 @@ public class URMView extends JFrame implements WindowListener {
 	public void init() {
 		ActionListener ac = new URMController(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		setBounds(100, 100, 800, 600);
-		this.setLocationRelativeTo(null);
+		setBounds(100, 100, 800, 600);
+//		this.setLocationRelativeTo(null);
 //		this.setPreferredSize(new Dimension(800, 600));
-		setSize(800, 600);
+//		setSize(800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -107,9 +113,17 @@ public class URMView extends JFrame implements WindowListener {
 		btnNewButton.addActionListener(ac);
 		panel_4.add(btnNewButton);
 
-		table = new JTable();
+		String[] columnNames = { "Username" };
+		Object[][] data = {};
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+		table = new JTable(model);
 		table.setBounds(0, 72, 268, 444);
-		panel_1.add(table);
+		panel_1.add(new JScrollPane(table));
+		JScrollPane js = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		js.setBounds(0, 72, 268, 444);
+		panel_1.add(js);
 
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(268, 72, 119, 444);
@@ -231,8 +245,45 @@ public class URMView extends JFrame implements WindowListener {
 		btnNewButton_9.setBounds(0, 387, 119, 55);
 		btnNewButton_9.addActionListener(ac);
 		panel_8.add(btnNewButton_9);
-		
+
 		this.setVisible(true);
+	}
+
+	private void setJTableUser() {
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		System.out.println(userModel.getUsername() + " " + userModel.getPassword());
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			String sql = "select * from DBa_users";
+
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+			}
+			dTModel.setColumnIdentifiers(colName);
+			
+
+			while (rs.next()) {
+				System.out.println(rs.getString("username"));
+			}
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
+
+			userModel = UserModel.getInstance("", "", "");
+			System.out.println(userModel.getUsername() + " " + userModel.getPassword());
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
 	}
 
 	@Override
@@ -284,8 +335,7 @@ public class URMView extends JFrame implements WindowListener {
 
 		if (connection == null) {
 			System.out.println("Khong dang nhap thanh cong");
-		}
-		else {
+		} else {
 			System.out.println("Dang nhap thanh cong");
 		}
 		new URMView();
