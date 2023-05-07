@@ -49,7 +49,6 @@ public class URMView extends JFrame implements WindowListener {
 	 * Launch the application.
 	 */
 	public URMView(LoginView login) {
-		this.addWindowListener(this);
 		this.parent = login;
 		this.init();
 	}
@@ -62,10 +61,11 @@ public class URMView extends JFrame implements WindowListener {
 	 * Create the frame.
 	 */
 	public void init() {
+		this.addWindowListener(this);
 		ActionListener ac = new URMController(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
-//		this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(null);
 //		this.setPreferredSize(new Dimension(800, 600));
 //		setSize(800, 600);
 		contentPane = new JPanel();
@@ -249,6 +249,11 @@ public class URMView extends JFrame implements WindowListener {
 		btnNewButton_9.addActionListener(ac);
 		panel_8.add(btnNewButton_9);
 
+		JButton btnNewButton_10 = new JButton("<- Back");
+		btnNewButton_10.setBounds(10, 11, 98, 22);
+		btnNewButton_10.addActionListener(ac);
+		contentPane.add(btnNewButton_10);
+
 		this.setJTableUser();
 		this.setVisible(true);
 	}
@@ -387,6 +392,44 @@ public class URMView extends JFrame implements WindowListener {
 		}
 	}
 
+	public static void main(String[] args) {
+		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
+
+		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
+
+		if (connection == null) {
+			System.out.println("Khong dang nhap thanh cong");
+		} else {
+			System.out.println("Dang nhap thanh cong");
+			System.out.println("Hello world");
+		}
+		new URMView();
+	}
+
+	public void toUserPrivilege() {
+		UserPrivilegeList up = new UserPrivilegeList(this);
+		this.setVisible(false);
+		up.setVisible(true);
+
+	}
+
+	public void destroyParent() {
+		if (this.parent != null) {
+			this.parent.dispose();
+		}
+	}
+
+	public void toRoleView() {
+		RoleView rv = new RoleView(this);
+		this.setVisible(false);
+		rv.setVisible(true);
+	}
+
+	public void toLoginView() {
+		this.parent.setVisible(true);
+		this.dispose();
+	}
+
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
@@ -396,13 +439,13 @@ public class URMView extends JFrame implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		this.parent.dispose();
+		this.destroyParent();
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		this.parent.dispose();
+
 	}
 
 	@Override
@@ -427,19 +470,5 @@ public class URMView extends JFrame implements WindowListener {
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public static void main(String[] args) {
-		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
-
-		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
-
-		if (connection == null) {
-			System.out.println("Khong dang nhap thanh cong");
-		} else {
-			System.out.println("Dang nhap thanh cong");
-			System.out.println("Hello world");
-		}
-		new URMView();
 	}
 }
