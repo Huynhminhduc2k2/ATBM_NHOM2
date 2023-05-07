@@ -8,6 +8,6 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Chi Linh");
 		//new LoginView();
-		RoleView roleview =new RoleView();
+		//RoleView roleview =new RoleView();
 	}
 }

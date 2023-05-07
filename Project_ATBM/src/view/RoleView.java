@@ -15,6 +15,8 @@ import javax.swing.JSplitPane;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,8 +33,8 @@ import database.JDBCUtil;
 import model.UserModel;
 import javax.swing.JScrollPane;
 
-public class RoleView extends JFrame {
-
+public class RoleView extends JFrame implements WindowListener {
+	private URMView parent;
 	private JPanel contentPane;
 	private JTextField textField_Search;
 	private JTextField textField_Name;
@@ -42,11 +44,13 @@ public class RoleView extends JFrame {
 	private JTable table_search;
 	private JScrollPane scrollPane_role,scrollPane_search;
 
-	public RoleView() {
+	public RoleView(URMView urm) {
 		this.init();
+		this.parent = urm;
 		this.setVisible(true);
 	}
 	public void init() {
+		this.addWindowListener(this);
 		ActionListener ac = new RoleController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 882, 514);
@@ -136,6 +140,12 @@ public class RoleView extends JFrame {
 		btnGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnGrant.setBounds(8, 37, 107, 21);
 		panel_Grant.add(btnGrant);
+		
+		JButton btnNewButton = new JButton("<- Back");
+		btnNewButton.setBounds(0, 0, 89, 23);
+		btnNewButton.addActionListener(ac);
+		
+		panel_Grant.add(btnNewButton);
 		btnGrant.addActionListener(ac);
 		
 		JPanel panel_Search = new JPanel();
@@ -254,5 +264,44 @@ public class RoleView extends JFrame {
 		} catch (SQLException err) {
 			err.printStackTrace();
 		}
+	}
+	public void toURMView() {
+		this.parent.setVisible(true);
+		this.dispose();
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		this.parent.destroyParent();
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
