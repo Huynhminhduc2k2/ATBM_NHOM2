@@ -30,7 +30,7 @@ public class URMController implements ActionListener {
 			this.urmview.toRoleView();
 		} else if (src.equals("User's privileges")) {
 			this.urmview.toUserPrivilege();
-		} else if (src.equals("<- Back")) {
+		} else if (src.equals("Logout")) {
 			this.urmview.toLoginView();
 		}
 	}
