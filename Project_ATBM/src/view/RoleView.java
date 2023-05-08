@@ -51,7 +51,11 @@ public class RoleView extends JFrame implements WindowListener {
 	private JTable table_search;
 //linh
 	private JScrollPane js_role;
+	
 	public RoleView() {
+		this.init();
+		this.setVisible(true);
+	}
 
 	private JScrollPane scrollPane_role,scrollPane_search;
 
@@ -90,15 +94,14 @@ public class RoleView extends JFrame implements WindowListener {
 		contentPane.add(panel_ResultSearch);
 		panel_ResultSearch.setLayout(null);
 		
-		js_search = new JScrollPane(table_search, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		js_search.setBounds(10, 10, 346, 292);
-		panel_ResultSearch.add(js_search);
 				
 		String[] columnNames = { "Username" };
 		Object[][] data = {};
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		table_search = new JTable(model);
-		js_search.setColumnHeaderView(table_search);
+		
+		js_search = new JScrollPane(table_search, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		js_search.setBounds(10, 10, 346, 292);
 		panel_ResultSearch.add(js_search);
 		
 		JPanel panel_Grant = new JPanel();
@@ -193,10 +196,6 @@ public class RoleView extends JFrame implements WindowListener {
 		JButton btnSearch = new JButton("Search Role");
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSearch.setBounds(10, 33, 118, 28);
-=======
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSearch.setBounds(28, 40, 102, 21);
 //
 		panel_Search.add(btnSearch);
 		btnSearch.addActionListener(ac);
@@ -224,9 +223,9 @@ public class RoleView extends JFrame implements WindowListener {
 		lblNewLabel.setBounds(383, 0, 135, 48);
 		contentPane.add(lblNewLabel);
 
-		btnAllrole.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnAllrole.setBounds(28, 71, 102, 36);
-		panel_Search.add(btnAllrole);
+//		btnAllrole.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnAllrole.setBounds(28, 71, 102, 36);
+//		panel_Search.add(btnAllrole);
 //
 		btnAllrole.addActionListener(ac);
 	}
@@ -302,6 +301,9 @@ public class RoleView extends JFrame implements WindowListener {
 				colName[i] = rsmd.getColumnName(i + 1);
 			}
 			dTModel.setColumnIdentifiers(colName);
+			for (int i = 0; i < colName.length; i++) {
+				System.out.println(colName[i]);
+			}
 
 			while (rs.next()) {
 				String[] rowValue = new String[colCount];
@@ -400,9 +402,9 @@ public class RoleView extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		UserModel userModel = UserModel.getInstance("pdb1_admin", "1", "xe");
+		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
 
-		Connection connection = JDBCUtil.getInstance("pdb").getConnection(userModel);
+		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
 
 		if (connection == null) {
 			System.out.println("Khong dang nhap thanh cong");
@@ -411,6 +413,8 @@ public class RoleView extends JFrame implements WindowListener {
 			System.out.println("Hello world");
 		}
 		new RoleView();
+	}
+	
 	public void toURMView() {
 		this.parent.setVisible(true);
 		this.dispose();
