@@ -444,6 +444,8 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 				dTModel.addRow(rowValue);
 			}
 
+			this.searchUserGrant_Container.setText("");
+			this.searchTableGrant_Container.setText("");
 			this.searchPrivGrant.setText("");
 
 
@@ -465,7 +467,7 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 			String userName = this.searchUserRevoke_Container.getText();
 			String tableName = this.searchTable_Container.getText();
 			String priv = this.searchPrivilege_Container.getText();
-			String sql = "REVOKE " + priv + " ON QLTTNV." + tableName + " TO " + userName;
+			String sql = "REVOKE " + priv + " ON QLTTNV." + tableName + " FROM " + userName;
 			PreparedStatement st = connection.prepareStatement(sql);
 
 			ResultSet rs = st.executeQuery();
@@ -488,7 +490,9 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 				dTModel.addRow(rowValue);
 			}
 
-			this.searchPrivGrant.setText("");
+			this.searchUserRevoke_Container.setText("");
+			this.searchTable_Container.setText("");
+			this.searchPrivilege_Container.setText("");
 
 
 			// Buoc 5: ngat ket noi
