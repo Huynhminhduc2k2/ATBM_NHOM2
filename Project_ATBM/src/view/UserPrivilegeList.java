@@ -5,16 +5,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.UserPrivilegesController;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import view.URMView;
 
-public class UserPrivilegeList extends JFrame {
-
+public class UserPrivilegeList extends JFrame implements WindowListener {
+	private URMView parent;
 	private JPanel contentPane;
 	private JPanel titlePane;
 	private JTextField listPrivilege_Container;
@@ -40,10 +48,12 @@ public class UserPrivilegeList extends JFrame {
 	private JTextField searchTable_Container;
 	private JTextField searchPrivilege_Container;
 	private JTextField searchUser_Container;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
 	 */
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -55,12 +65,15 @@ public class UserPrivilegeList extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
-	public UserPrivilegeList() {
+	public UserPrivilegeList(URMView urm) {
+		this.parent = urm;
+		this.addWindowListener(this);
+		ActionListener ac = new UserPrivilegesController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1020, 665);
 		contentPane = new JPanel();
@@ -74,10 +87,15 @@ public class UserPrivilegeList extends JFrame {
 		contentPane.add(titlePane);
 		titlePane.setLayout(new BorderLayout(0, 0));
 		
-		JLabel userPrivilegesList_Title = new JLabel("User Privileges List");
+		JLabel userPrivilegesList_Title = new JLabel("USER PRIVILEGES LIST");
 		userPrivilegesList_Title.setHorizontalAlignment(SwingConstants.CENTER);
 		userPrivilegesList_Title.setFont(new Font("Arial", Font.BOLD, 20));
 		titlePane.add(userPrivilegesList_Title);
+		
+		btnNewButton = new JButton("<");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNewButton.addActionListener(ac);
+		titlePane.add(btnNewButton, BorderLayout.WEST);
 		
 		JPanel listPane = new JPanel();
 		listPane.setBounds(20, 55, 973, 300);
@@ -128,21 +146,21 @@ public class UserPrivilegeList extends JFrame {
 		searchUserRevoke_Label.setBounds(360, 47, 43, 21);
 		buttonPane.add(searchUserRevoke_Label);
 		
-		loadPrivilege_Label = new JLabel("Load Privileges");
+		loadPrivilege_Label = new JLabel("LOAD PRIVILEGES");
 		loadPrivilege_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		loadPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		loadPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		loadPrivilege_Label.setBounds(652, 133, 316, 40);
 		buttonPane.add(loadPrivilege_Label);
 		
-		searchUser_Label = new JLabel("Searching User");
+		searchUser_Label = new JLabel("SEARCHING USER");
 		searchUser_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		searchUser_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		searchUser_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		searchUser_Label.setBounds(652, 0, 316, 40);
 		buttonPane.add(searchUser_Label);
 		
-		lblRevokePrivilege = new JLabel("Revoke Privilege");
+		lblRevokePrivilege = new JLabel("REVOKE PRIVILEGE");
 		lblRevokePrivilege.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRevokePrivilege.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblRevokePrivilege.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblRevokePrivilege.setBounds(326, 0, 316, 40);
 		buttonPane.add(lblRevokePrivilege);
 		
@@ -184,14 +202,14 @@ public class UserPrivilegeList extends JFrame {
 		searchUserGrant_Label.setBounds(35, 47, 43, 21);
 		buttonPane.add(searchUserGrant_Label);
 		
-		JLabel grantPrivilege_Label = new JLabel("Grant Privilege");
+		JLabel grantPrivilege_Label = new JLabel("GRANT PRIVILEGE");
 		grantPrivilege_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		grantPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		grantPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		grantPrivilege_Label.setBounds(0, 0, 316, 40);
 		buttonPane.add(grantPrivilege_Label);
 		
 		loadPrivileges_Button = new JButton("Load");
-		loadPrivileges_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		loadPrivileges_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
 		loadPrivileges_Button.setBounds(770, 200, 85, 21);
 		buttonPane.add(loadPrivileges_Button);
 		
@@ -201,13 +219,13 @@ public class UserPrivilegeList extends JFrame {
 		buttonPane.add(searchUser_Button);
 		
 		grantPrivilege_Button = new JButton("Grant");
-		grantPrivilege_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		grantPrivilege_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
 		grantPrivilege_Button.setBounds(110, 200, 85, 21);
 		buttonPane.add(grantPrivilege_Button);
 		
 		JButton revokePrivilege_Button = new JButton("Revoke");
-		revokePrivilege_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		revokePrivilege_Button.setBounds(435, 200, 85, 21);
+		revokePrivilege_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
+		revokePrivilege_Button.setBounds(435, 200, 95, 21);
 		buttonPane.add(revokePrivilege_Button);
 		
 		fieldUser = new JTextField();
@@ -229,5 +247,54 @@ public class UserPrivilegeList extends JFrame {
 		fieldLoad.setColumns(10);
 		fieldLoad.setBounds(652, 127, 316, 120);
 		buttonPane.add(fieldLoad);
+		
+		this.setVisible(true);
+	}
+	
+	public void toURMView() {
+		this.parent.setVisible(true);
+		this.dispose();
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		this.parent.destroyParent();
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

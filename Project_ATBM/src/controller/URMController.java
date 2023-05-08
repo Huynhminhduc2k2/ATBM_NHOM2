@@ -26,6 +26,12 @@ public class URMController implements ActionListener {
 			this.urmview.createUser();
 		} else if (src.equals("Find user")) {
 			this.urmview.findByUser();
+		} else if (src.equals("Role's privileges")) {
+			this.urmview.toRoleView();
+		} else if (src.equals("User's privileges")) {
+			this.urmview.toUserPrivilege();
+		} else if (src.equals("Logout")) {
+			this.urmview.toLoginView();
 		}
 	}
 

@@ -37,6 +37,8 @@ public class RoleController implements ActionListener{
 			else if (src.equals("Search Grant")) {
 				System.out.println(src);
 				this.roleview.findGrantOfRole();
+			} else if (src.equals("<")) {
+				this.roleview.toURMView();
 			}
 		}
 }

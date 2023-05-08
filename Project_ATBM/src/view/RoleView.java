@@ -15,6 +15,8 @@ import javax.swing.JSplitPane;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,8 +38,8 @@ import javax.swing.table.TableModel;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 
-public class RoleView extends JFrame {
-
+public class RoleView extends JFrame implements WindowListener {
+	private URMView parent;
 	private JPanel contentPane;
 	private JTextField textField_Search;
 	private JTextField textField_Name;
@@ -47,12 +49,20 @@ public class RoleView extends JFrame {
 	private JTextField textField_SearchGrant;
 	private JScrollPane js_search;
 	private JTable table_search;
+//linh
 	private JScrollPane js_role;
 	public RoleView() {
+
+	private JScrollPane scrollPane_role,scrollPane_search;
+
+	public RoleView(URMView urm) {
+// main
 		this.init();
+		this.parent = urm;
 		this.setVisible(true);
 	}
 	public void init() {
+		this.addWindowListener(this);
 		ActionListener ac = new RoleController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 882, 538);
@@ -96,8 +106,8 @@ public class RoleView extends JFrame {
 		contentPane.add(panel_Grant);
 		panel_Grant.setLayout(null);
 		
-		JLabel lblNewLabel_Grant = new JLabel("Grant");
-		lblNewLabel_Grant.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblNewLabel_Grant = new JLabel("GRANT");
+		lblNewLabel_Grant.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_Grant.setBounds(159, 4, 107, 25);
 		panel_Grant.add(lblNewLabel_Grant);
 		
@@ -135,15 +145,32 @@ public class RoleView extends JFrame {
 		panel_Grant.add(lblNewLabel_Table);
 		
 		JButton btnRevole = new JButton("Revoke");
+//linh
 		btnRevole.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRevole.setBounds(8, 67, 107, 34);
+
+		btnRevole.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnRevole.setBounds(8, 80, 107, 21);
+//
 		panel_Grant.add(btnRevole);
 		btnRevole.addActionListener(ac);
 		
 		JButton btnGrant = new JButton("Grant");
+// linh
 		btnGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnGrant.setBounds(8, 26, 107, 33);
+
+		btnGrant.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnGrant.setBounds(8, 37, 107, 21);
+//
 		panel_Grant.add(btnGrant);
+		
+		JButton btnNewButton = new JButton("<");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNewButton.setBounds(0, 0, 60, 23);
+		btnNewButton.addActionListener(ac);
+		
+		panel_Grant.add(btnNewButton);
 		btnGrant.addActionListener(ac);
 		
 		JPanel panel_Search = new JPanel();
@@ -151,9 +178,9 @@ public class RoleView extends JFrame {
 		contentPane.add(panel_Search);
 		panel_Search.setLayout(null);
 		
-		JLabel lblNewLabel_Search = new JLabel("Search");
-		lblNewLabel_Search.setBounds(159, 0, 60, 25);
-		lblNewLabel_Search.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblNewLabel_Search = new JLabel("SEARCH");
+		lblNewLabel_Search.setBounds(159, 0, 90, 25);
+		lblNewLabel_Search.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panel_Search.add(lblNewLabel_Search);
 		
 		textField_Search = new JTextField();
@@ -162,9 +189,15 @@ public class RoleView extends JFrame {
 		panel_Search.add(textField_Search);
 		textField_Search.setColumns(10);
 		
+// linh
 		JButton btnSearch = new JButton("Search Role");
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSearch.setBounds(10, 33, 118, 28);
+=======
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSearch.setBounds(28, 40, 102, 21);
+//
 		panel_Search.add(btnSearch);
 		btnSearch.addActionListener(ac);
 		
@@ -181,6 +214,7 @@ public class RoleView extends JFrame {
 		btnSearchGrant.addActionListener(ac);
 		
 		JButton btnAllrole = new JButton("All Role");
+// linh
 		btnAllrole.setBounds(493, 143, 118, 25);
 		contentPane.add(btnAllrole);
 		btnAllrole.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -189,6 +223,11 @@ public class RoleView extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		lblNewLabel.setBounds(383, 0, 135, 48);
 		contentPane.add(lblNewLabel);
+
+		btnAllrole.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAllrole.setBounds(28, 71, 102, 36);
+		panel_Search.add(btnAllrole);
+//
 		btnAllrole.addActionListener(ac);
 	}
 	private void clearJTableRole() {
@@ -321,6 +360,7 @@ public class RoleView extends JFrame {
 			err.printStackTrace();
 		}
 	}
+// linh
 
 	public void GrantRole() {
 		
@@ -371,5 +411,44 @@ public class RoleView extends JFrame {
 			System.out.println("Hello world");
 		}
 		new RoleView();
+	public void toURMView() {
+		this.parent.setVisible(true);
+		this.dispose();
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		this.parent.destroyParent();
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+// main
 	}
 }

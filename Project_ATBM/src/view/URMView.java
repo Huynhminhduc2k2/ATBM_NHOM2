@@ -49,7 +49,6 @@ public class URMView extends JFrame implements WindowListener {
 	 * Launch the application.
 	 */
 	public URMView(LoginView login) {
-		this.addWindowListener(this);
 		this.parent = login;
 		this.init();
 	}
@@ -62,10 +61,11 @@ public class URMView extends JFrame implements WindowListener {
 	 * Create the frame.
 	 */
 	public void init() {
+		this.addWindowListener(this);
 		ActionListener ac = new URMController(this);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
-//		this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(null);
 //		this.setPreferredSize(new Dimension(800, 600));
 //		setSize(800, 600);
 		contentPane = new JPanel();
@@ -74,10 +74,10 @@ public class URMView extends JFrame implements WindowListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("User and Role Management");
+		JLabel lblNewLabel = new JLabel("USER AND ROLE MANAGEMENT");
 		lblNewLabel.setBounds(5, 5, 774, 35);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
 		contentPane.add(lblNewLabel);
 
 		JPanel panel = new JPanel();
@@ -97,7 +97,7 @@ public class URMView extends JFrame implements WindowListener {
 		panel_3.setLayout(new GridLayout(3, 1, 0, 0));
 
 		JLabel lblNewLabel_1 = new JLabel("User");
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_3.add(lblNewLabel_1);
 
@@ -113,6 +113,7 @@ public class URMView extends JFrame implements WindowListener {
 		findUserTextField.setColumns(10);
 
 		JButton btnNewButton = new JButton("Find user");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton.addActionListener(ac);
 		panel_4.add(btnNewButton);
 
@@ -152,21 +153,25 @@ public class URMView extends JFrame implements WindowListener {
 		textField_UserPassword.setColumns(10);
 
 		JButton btnNewButton_1 = new JButton("Create user");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_1.setBounds(0, 166, 119, 55);
 		panel_5.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(ac);
 
 		JButton btnNewButton_2 = new JButton("Delete user");
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_2.setBounds(0, 240, 119, 55);
 		btnNewButton_2.addActionListener(ac);
 		panel_5.add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("Change password");
+		btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_3.setBounds(0, 314, 119, 55);
 		btnNewButton_3.addActionListener(ac);
 		panel_5.add(btnNewButton_3);
 
 		JButton btnNewButton_4 = new JButton("User's privileges");
+		btnNewButton_4.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_4.setBounds(0, 387, 119, 55);
 		btnNewButton_4.addActionListener(ac);
 		panel_5.add(btnNewButton_4);
@@ -183,7 +188,7 @@ public class URMView extends JFrame implements WindowListener {
 		panel_6.setLayout(new GridLayout(3, 1, 0, 0));
 
 		JLabel lblNewLabel_5 = new JLabel("Role");
-		lblNewLabel_5.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		lblNewLabel_5.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_6.add(lblNewLabel_5);
 
@@ -199,6 +204,7 @@ public class URMView extends JFrame implements WindowListener {
 		textField_3.setColumns(10);
 
 		JButton btnNewButton_5 = new JButton("Find role");
+		btnNewButton_5.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_5.addActionListener(ac);
 		panel_7.add(btnNewButton_5);
 
@@ -230,24 +236,34 @@ public class URMView extends JFrame implements WindowListener {
 		textField_5.setColumns(10);
 
 		JButton btnNewButton_6 = new JButton("Create role");
+		btnNewButton_6.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_6.addActionListener(ac);
 		btnNewButton_6.setBounds(0, 166, 119, 55);
 		panel_8.add(btnNewButton_6);
 
 		JButton btnNewButton_7 = new JButton("Delete role");
+		btnNewButton_7.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_7.addActionListener(ac);
 		btnNewButton_7.setBounds(0, 240, 119, 55);
 		panel_8.add(btnNewButton_7);
 
 		JButton btnNewButton_8 = new JButton("Change password");
+		btnNewButton_8.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_8.addActionListener(ac);
 		btnNewButton_8.setBounds(0, 314, 119, 55);
 		panel_8.add(btnNewButton_8);
 
 		JButton btnNewButton_9 = new JButton("Role's privileges");
+		btnNewButton_9.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnNewButton_9.setBounds(0, 387, 119, 55);
 		btnNewButton_9.addActionListener(ac);
 		panel_8.add(btnNewButton_9);
+
+		JButton btnNewButton_10 = new JButton("Logout");
+		btnNewButton_10.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_10.setBounds(10, 11, 100, 22);
+		btnNewButton_10.addActionListener(ac);
+		contentPane.add(btnNewButton_10);
 
 		this.setJTableUser();
 		this.setVisible(true);
@@ -387,6 +403,44 @@ public class URMView extends JFrame implements WindowListener {
 		}
 	}
 
+	public static void main(String[] args) {
+		UserModel userModel = UserModel.getInstance("system", "Hizumi6/2/2002", "xe");
+
+		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
+
+		if (connection == null) {
+			System.out.println("Khong dang nhap thanh cong");
+		} else {
+			System.out.println("Dang nhap thanh cong");
+			System.out.println("Hello world");
+		}
+		new URMView();
+	}
+
+	public void toUserPrivilege() {
+		UserPrivilegeList up = new UserPrivilegeList(this);
+		this.setVisible(false);
+		up.setVisible(true);
+
+	}
+
+	public void destroyParent() {
+		if (this.parent != null) {
+			this.parent.dispose();
+		}
+	}
+
+	public void toRoleView() {
+		RoleView rv = new RoleView(this);
+		this.setVisible(false);
+		rv.setVisible(true);
+	}
+
+	public void toLoginView() {
+		this.parent.setVisible(true);
+		this.dispose();
+	}
+
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
@@ -396,13 +450,13 @@ public class URMView extends JFrame implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		this.parent.dispose();
+		this.destroyParent();
 	}
 
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		this.parent.dispose();
+
 	}
 
 	@Override
@@ -427,19 +481,5 @@ public class URMView extends JFrame implements WindowListener {
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public static void main(String[] args) {
-		UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
-
-		Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
-
-		if (connection == null) {
-			System.out.println("Khong dang nhap thanh cong");
-		} else {
-			System.out.println("Dang nhap thanh cong");
-			System.out.println("Hello world");
-		}
-		new URMView();
 	}
 }
