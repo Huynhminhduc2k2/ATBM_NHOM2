@@ -24,8 +24,8 @@ public class UserPrivilegesController implements ActionListener{
 			this.up.search();
 		} else if (src.equals("Grant")) {
 			this.up.grantPriv();
-//		} else if (src.equals("Revoke")) {
-//			this.up.revokePriv();
+		} else if (src.equals("Revoke")) {
+			this.up.revokePriv();
 		}
 	}
 }
