@@ -376,17 +376,41 @@ public class RoleView extends JFrame implements WindowListener {
         Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
 
         try {
-            String sql = "GRANT upper(?) ON upper(?) TO upper(?)";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, this.textField_Privilige.getText());
-            st.setString(2, this.textField_Table.getText());
-            st.setString(3, this.textField_Name.getText());
 
-            st.executeQuery();
-        } catch (SQLException err) {
-            err.printStackTrace();
-        }
-    }
+            String roleName = this.textField_Name.getText();
+        	String tableName = this.textField_Table.getText();
+        	String priv = this.textField_Privilige.getText();    
+        	
+			String sql = "GRANT " + priv + " ON QLTTNV." + tableName + " TO " + roleName;
+			PreparedStatement st = connection.prepareStatement(sql);
+
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table_search.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+			}
+			dTModel.setColumnIdentifiers(colName);
+
+			while (rs.next()) {
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
+				}
+				dTModel.addRow(rowValue);
+			}
+
+
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
 
     public void RevokeGrantRole() {
 
@@ -395,20 +419,44 @@ public class RoleView extends JFrame implements WindowListener {
         Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
 
         try {
-            String sql = "REVOKE upper(?) ON upper(?) FROM upper(?)";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, this.textField_Privilige.getText());
-            st.setString(2, this.textField_Table.getText());
-            st.setString(3, this.textField_Name.getText());
 
-            st.executeQuery();
-        } catch (SQLException err) {
-            err.printStackTrace();
-        }
-    }
+            String roleName = this.textField_Name.getText();
+        	String tableName = this.textField_Table.getText();
+        	String priv = this.textField_Privilige.getText();    
+        	
+			String sql = "REVOKE " + priv + " ON QLTTNV." + tableName + " FROM " + roleName;
+			PreparedStatement st = connection.prepareStatement(sql);
 
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table_search.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+			}
+			dTModel.setColumnIdentifiers(colName);
+
+			while (rs.next()) {
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
+				}
+				dTModel.addRow(rowValue);
+			}
+
+
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
+    
     public static void main(String[] args) {
-        UserModel userModel = UserModel.getInstance("system", "JusticeFreedom@26", "xe");
+        UserModel userModel = UserModel.getInstance("system", "Hizumi6/2/2002", "xe");
 
         Connection connection = JDBCUtil.getInstance("xe").getConnection(userModel);
 
