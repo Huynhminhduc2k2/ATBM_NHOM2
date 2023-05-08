@@ -20,15 +20,23 @@ public class RoleController implements ActionListener{
 			String src = e.getActionCommand();
 			if (src.equals("All Role")) {
 				System.out.println(src);
+				this.roleview.LoadALLRole();
 			}
 			else if (src.equals("Grant")) {
 				System.out.println(src);
+				this.roleview.GrantRole();
 			}
 			else if (src.equals("Revoke")) {
 				System.out.println(src);
+				this.roleview.RevokeGrantRole();
 			}
-			else if (src.equals("Search")) {
+			else if (src.equals("Search Role")) {
 				System.out.println(src);
+				this.roleview.findByRole();
+			}
+			else if (src.equals("Search Grant")) {
+				System.out.println(src);
+				this.roleview.findGrantOfRole();
 			} else if (src.equals("<")) {
 				this.roleview.toURMView();
 			}
