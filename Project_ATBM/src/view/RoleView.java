@@ -30,6 +30,11 @@ import controller.RoleController;
 import database.JDBCUtil;
 import model.UserModel;
 import javax.swing.JScrollPane;
+import java.awt.Component;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.TableModel;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 public class RoleView extends JFrame {
 
@@ -39,9 +44,10 @@ public class RoleView extends JFrame {
 	private JTextField textField_Privilige;
 	private JTextField textField_Table;
 	private JTable table_role;
+	private JTextField textField_SearchGrant;
+	private JScrollPane js_search;
 	private JTable table_search;
-	private JScrollPane scrollPane_role,scrollPane_search;
-
+	private JScrollPane js_role;
 	public RoleView() {
 		this.init();
 		this.setVisible(true);
@@ -49,7 +55,7 @@ public class RoleView extends JFrame {
 	public void init() {
 		ActionListener ac = new RoleController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 882, 514);
+		setBounds(100, 100, 882, 538);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -57,34 +63,36 @@ public class RoleView extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel_Role = new JPanel();
-		panel_Role.setBounds(10, 142, 451, 312);
+		panel_Role.setBounds(17, 172, 451, 312);
 		contentPane.add(panel_Role);
 		panel_Role.setLayout(null);
 		
-		table_role = new JTable();
-		table_role.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		table_role.setBounds(10, 10, 431, 292);
-		panel_Role.add(table_role);
+		js_role = new JScrollPane(table_role, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		js_role.setBounds(10, 10, 431, 292);
+		panel_Role.add(js_role);
 		
-		scrollPane_role = new JScrollPane();
-		scrollPane_role.setBounds(0, 0, 451, 312);
-		panel_Role.add(scrollPane_role);
+		table_role = new JTable((TableModel) null);
+		
+		js_role.setColumnHeaderView(table_role);
 		
 		JPanel panel_ResultSearch = new JPanel();
-		panel_ResultSearch.setBounds(478, 142, 380, 312);
+		panel_ResultSearch.setBounds(478, 172, 367, 312);
 		contentPane.add(panel_ResultSearch);
 		panel_ResultSearch.setLayout(null);
 		
-		table_search = new JTable();
-		table_search.setBounds(10, 10, 360, 302);
-		panel_ResultSearch.add(table_search);
-		
-		scrollPane_search = new JScrollPane();
-		scrollPane_search.setBounds(0, 0, 380, 312);
-		panel_ResultSearch.add(scrollPane_search);
+		js_search = new JScrollPane(table_search, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		js_search.setBounds(10, 10, 346, 292);
+		panel_ResultSearch.add(js_search);
+				
+		String[] columnNames = { "Username" };
+		Object[][] data = {};
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		table_search = new JTable(model);
+		js_search.setColumnHeaderView(table_search);
+		panel_ResultSearch.add(js_search);
 		
 		JPanel panel_Grant = new JPanel();
-		panel_Grant.setBounds(25, 10, 438, 122);
+		panel_Grant.setBounds(23, 40, 438, 122);
 		contentPane.add(panel_Grant);
 		panel_Grant.setLayout(null);
 		
@@ -101,13 +109,13 @@ public class RoleView extends JFrame {
 		
 		textField_Privilige = new JTextField();
 		textField_Privilige.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_Privilige.setBounds(229, 67, 173, 19);
+		textField_Privilige.setBounds(229, 62, 173, 19);
 		panel_Grant.add(textField_Privilige);
 		textField_Privilige.setColumns(10);
 		
 		textField_Table = new JTextField();
 		textField_Table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_Table.setBounds(229, 96, 173, 19);
+		textField_Table.setBounds(229, 91, 173, 19);
 		panel_Grant.add(textField_Table);
 		textField_Table.setColumns(10);
 		
@@ -118,28 +126,28 @@ public class RoleView extends JFrame {
 		
 		JLabel lblNewLabel_Privilige = new JLabel("Privilige");
 		lblNewLabel_Privilige.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_Privilige.setBounds(158, 68, 72, 13);
+		lblNewLabel_Privilige.setBounds(159, 62, 72, 13);
 		panel_Grant.add(lblNewLabel_Privilige);
 		
 		JLabel lblNewLabel_Table = new JLabel("Table");
 		lblNewLabel_Table.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_Table.setBounds(159, 97, 45, 13);
+		lblNewLabel_Table.setBounds(159, 94, 45, 13);
 		panel_Grant.add(lblNewLabel_Table);
 		
 		JButton btnRevole = new JButton("Revoke");
 		btnRevole.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnRevole.setBounds(8, 80, 107, 21);
+		btnRevole.setBounds(8, 67, 107, 34);
 		panel_Grant.add(btnRevole);
 		btnRevole.addActionListener(ac);
 		
 		JButton btnGrant = new JButton("Grant");
 		btnGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnGrant.setBounds(8, 37, 107, 21);
+		btnGrant.setBounds(8, 26, 107, 33);
 		panel_Grant.add(btnGrant);
 		btnGrant.addActionListener(ac);
 		
 		JPanel panel_Search = new JPanel();
-		panel_Search.setBounds(478, 10, 362, 130);
+		panel_Search.setBounds(483, 40, 362, 104);
 		contentPane.add(panel_Search);
 		panel_Search.setLayout(null);
 		
@@ -150,45 +158,61 @@ public class RoleView extends JFrame {
 		
 		textField_Search = new JTextField();
 		textField_Search.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_Search.setBounds(153, 42, 199, 19);
+		textField_Search.setBounds(153, 35, 199, 25);
 		panel_Search.add(textField_Search);
 		textField_Search.setColumns(10);
 		
-		JButton btnSearch = new JButton("Search");
+		JButton btnSearch = new JButton("Search Role");
 		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnSearch.setBounds(28, 40, 102, 21);
+		btnSearch.setBounds(10, 33, 118, 28);
 		panel_Search.add(btnSearch);
 		btnSearch.addActionListener(ac);
 		
+		textField_SearchGrant = new JTextField();
+		textField_SearchGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_SearchGrant.setColumns(10);
+		textField_SearchGrant.setBounds(153, 70, 199, 25);
+		panel_Search.add(textField_SearchGrant);
+		
+		JButton btnSearchGrant = new JButton("Search Grant");
+		btnSearchGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSearchGrant.setBounds(10, 67, 118, 28);
+		panel_Search.add(btnSearchGrant);
+		btnSearchGrant.addActionListener(ac);
+		
 		JButton btnAllrole = new JButton("All Role");
+		btnAllrole.setBounds(493, 143, 118, 25);
+		contentPane.add(btnAllrole);
 		btnAllrole.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAllrole.setBounds(28, 71, 102, 36);
-		panel_Search.add(btnAllrole);
+		
+		JLabel lblNewLabel = new JLabel("Role List");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblNewLabel.setBounds(383, 0, 135, 48);
+		contentPane.add(lblNewLabel);
 		btnAllrole.addActionListener(ac);
 	}
 	private void clearJTableRole() {
 		DefaultTableModel model = (DefaultTableModel) table_role.getModel();
 		model.setRowCount(0);
 		table_role.repaint();
-		scrollPane_role.revalidate();
+		js_role.revalidate();
 	}
 	private void clearJTableSearch() {
 		DefaultTableModel model = (DefaultTableModel) table_search.getModel();
 		model.setRowCount(0);
 		table_search.repaint();
-		scrollPane_search.revalidate();
+		js_search.revalidate();
 	}
-
-	private void setJTableRole() {
+	
+	public void LoadALLRole() {
 		this.clearJTableRole();
-
+		
 		UserModel userModel = UserModel.getInstance("", "", "");
 
 		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
 
 		try {
-			String sql = "SELECT GRANTEE,PRIVILEGE FROM DBA_TAB_PRIVS;";
-
+			String sql = "SELECT role,role_id FROM DBA_ROLES";
 			PreparedStatement st = connection.prepareStatement(sql);
 
 			ResultSet rs = st.executeQuery();
@@ -206,9 +230,11 @@ public class RoleView extends JFrame {
 				String[] rowValue = new String[colCount];
 				for (int i = 0; i < rowValue.length; i++) {
 					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
 				}
 				dTModel.addRow(rowValue);
 			}
+
 			// Buoc 5: ngat ket noi
 			JDBCUtil.closeConnection(connection);
 		} catch (SQLException err) {
@@ -216,14 +242,14 @@ public class RoleView extends JFrame {
 		}
 	}
 	public void findByRole() {
-		this.clearJTableSearch();
-
+		this.clearJTableRole();
+		
 		UserModel userModel = UserModel.getInstance("", "", "");
 
 		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
 
 		try {
-			String sql = "SELECT GRANTEE,PRIVILEGE FROM DBA_TAB_PRIVS WHERE GRANTEE = upper(?)";
+			String sql = "SELECT role,role_id FROM DBA_ROLES WHERE role = upper(?)";
 			PreparedStatement st = connection.prepareStatement(sql);
 			st.setString(1, this.textField_Search.getText());
 
@@ -247,12 +273,103 @@ public class RoleView extends JFrame {
 				dTModel.addRow(rowValue);
 			}
 
-			this.textField_Search.setText("");
+			// Buoc 5: ngat ket noi
+			JDBCUtil.closeConnection(connection);
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
+
+	public void findGrantOfRole() {
+		this.clearJTableSearch();
+		
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			String sql = "SELECT GRANTEE, PRIVILEGE, TABLE_NAME FROM DBA_TAB_PRIVS WHERE GRANTEE = upper(?)";
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setString(1, this.textField_SearchGrant.getText());
+
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsmd = rs.getMetaData();
+			DefaultTableModel dTModel = (DefaultTableModel) table_search.getModel();
+
+			int colCount = rsmd.getColumnCount();
+			String[] colName = new String[colCount];
+			for (int i = 0; i < colCount; i++) {
+				colName[i] = rsmd.getColumnName(i + 1);
+				System.out.println(colName[i]);
+			}
+			dTModel.setColumnIdentifiers(colName);
+			
+			System.out.println(colName);
+
+			while (rs.next()) {
+				String[] rowValue = new String[colCount];
+				for (int i = 0; i < rowValue.length; i++) {
+					rowValue[i] = rs.getString(i + 1);
+					System.out.println(rowValue[i]);
+				}
+				dTModel.addRow(rowValue);
+			}
 
 			// Buoc 5: ngat ket noi
 			JDBCUtil.closeConnection(connection);
 		} catch (SQLException err) {
 			err.printStackTrace();
 		}
+	}
+
+	public void GrantRole() {
+		
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			String sql = "GRANT upper(?) ON upper(?) TO upper(?)";
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setString(1, this.textField_Privilige.getText());
+			st.setString(2, this.textField_Table.getText());
+			st.setString(3, this.textField_Name.getText());
+			
+			st.executeQuery();			
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
+	public void RevokeGrantRole() {
+		
+		UserModel userModel = UserModel.getInstance("", "", "");
+
+		Connection connection = JDBCUtil.getInstance("").getConnection(userModel);
+
+		try {
+			String sql = "REVOKE upper(?) ON upper(?) FROM upper(?)";
+			PreparedStatement st = connection.prepareStatement(sql);
+			st.setString(1, this.textField_Privilige.getText());
+			st.setString(2, this.textField_Table.getText());
+			st.setString(3, this.textField_Name.getText());
+			
+			st.executeQuery();	
+		} catch (SQLException err) {
+			err.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		UserModel userModel = UserModel.getInstance("pdb1_admin", "1", "xe");
+
+		Connection connection = JDBCUtil.getInstance("pdb").getConnection(userModel);
+
+		if (connection == null) {
+			System.out.println("Khong dang nhap thanh cong");
+		} else {
+			System.out.println("Dang nhap thanh cong");
+			System.out.println("Hello world");
+		}
+		new RoleView();
 	}
 }
