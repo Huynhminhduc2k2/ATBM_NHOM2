@@ -92,8 +92,8 @@ public class RoleView extends JFrame implements WindowListener {
 		contentPane.add(panel_Grant);
 		panel_Grant.setLayout(null);
 		
-		JLabel lblNewLabel_Grant = new JLabel("Grant");
-		lblNewLabel_Grant.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblNewLabel_Grant = new JLabel("GRANT");
+		lblNewLabel_Grant.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel_Grant.setBounds(159, 4, 107, 25);
 		panel_Grant.add(lblNewLabel_Grant);
 		
@@ -131,18 +131,19 @@ public class RoleView extends JFrame implements WindowListener {
 		panel_Grant.add(lblNewLabel_Table);
 		
 		JButton btnRevole = new JButton("Revoke");
-		btnRevole.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnRevole.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRevole.setBounds(8, 80, 107, 21);
 		panel_Grant.add(btnRevole);
 		btnRevole.addActionListener(ac);
 		
 		JButton btnGrant = new JButton("Grant");
-		btnGrant.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnGrant.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnGrant.setBounds(8, 37, 107, 21);
 		panel_Grant.add(btnGrant);
 		
-		JButton btnNewButton = new JButton("<- Back");
-		btnNewButton.setBounds(0, 0, 89, 23);
+		JButton btnNewButton = new JButton("<");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnNewButton.setBounds(0, 0, 60, 23);
 		btnNewButton.addActionListener(ac);
 		
 		panel_Grant.add(btnNewButton);
@@ -153,9 +154,9 @@ public class RoleView extends JFrame implements WindowListener {
 		contentPane.add(panel_Search);
 		panel_Search.setLayout(null);
 		
-		JLabel lblNewLabel_Search = new JLabel("Search");
-		lblNewLabel_Search.setBounds(159, 0, 60, 25);
-		lblNewLabel_Search.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblNewLabel_Search = new JLabel("SEARCH");
+		lblNewLabel_Search.setBounds(159, 0, 90, 25);
+		lblNewLabel_Search.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panel_Search.add(lblNewLabel_Search);
 		
 		textField_Search = new JTextField();
@@ -165,13 +166,13 @@ public class RoleView extends JFrame implements WindowListener {
 		textField_Search.setColumns(10);
 		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSearch.setBounds(28, 40, 102, 21);
 		panel_Search.add(btnSearch);
 		btnSearch.addActionListener(ac);
 		
 		JButton btnAllrole = new JButton("All Role");
-		btnAllrole.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAllrole.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnAllrole.setBounds(28, 71, 102, 36);
 		panel_Search.add(btnAllrole);
 		btnAllrole.addActionListener(ac);

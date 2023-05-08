@@ -16,7 +16,7 @@ public class UserPrivilegesController implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String src = e.getActionCommand();
-		if (src.equals("<- Back")) {
+		if (src.equals("<")) {
 			this.up.toURMView();
 		}
 		
