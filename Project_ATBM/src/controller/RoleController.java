@@ -29,7 +29,7 @@ public class RoleController implements ActionListener{
 			}
 			else if (src.equals("Search")) {
 				System.out.println(src);
-			} else if (src.equals("<- Back")) {
+			} else if (src.equals("<")) {
 				this.roleview.toURMView();
 			}
 		}

@@ -87,12 +87,13 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 		contentPane.add(titlePane);
 		titlePane.setLayout(new BorderLayout(0, 0));
 		
-		JLabel userPrivilegesList_Title = new JLabel("User Privileges List");
+		JLabel userPrivilegesList_Title = new JLabel("USER PRIVILEGES LIST");
 		userPrivilegesList_Title.setHorizontalAlignment(SwingConstants.CENTER);
 		userPrivilegesList_Title.setFont(new Font("Arial", Font.BOLD, 20));
 		titlePane.add(userPrivilegesList_Title);
 		
-		btnNewButton = new JButton("<- Back");
+		btnNewButton = new JButton("<");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnNewButton.addActionListener(ac);
 		titlePane.add(btnNewButton, BorderLayout.WEST);
 		
@@ -145,21 +146,21 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 		searchUserRevoke_Label.setBounds(360, 47, 43, 21);
 		buttonPane.add(searchUserRevoke_Label);
 		
-		loadPrivilege_Label = new JLabel("Load Privileges");
+		loadPrivilege_Label = new JLabel("LOAD PRIVILEGES");
 		loadPrivilege_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		loadPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		loadPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		loadPrivilege_Label.setBounds(652, 133, 316, 40);
 		buttonPane.add(loadPrivilege_Label);
 		
-		searchUser_Label = new JLabel("Searching User");
+		searchUser_Label = new JLabel("SEARCHING USER");
 		searchUser_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		searchUser_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		searchUser_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		searchUser_Label.setBounds(652, 0, 316, 40);
 		buttonPane.add(searchUser_Label);
 		
-		lblRevokePrivilege = new JLabel("Revoke Privilege");
+		lblRevokePrivilege = new JLabel("REVOKE PRIVILEGE");
 		lblRevokePrivilege.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRevokePrivilege.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblRevokePrivilege.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblRevokePrivilege.setBounds(326, 0, 316, 40);
 		buttonPane.add(lblRevokePrivilege);
 		
@@ -201,14 +202,14 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 		searchUserGrant_Label.setBounds(35, 47, 43, 21);
 		buttonPane.add(searchUserGrant_Label);
 		
-		JLabel grantPrivilege_Label = new JLabel("Grant Privilege");
+		JLabel grantPrivilege_Label = new JLabel("GRANT PRIVILEGE");
 		grantPrivilege_Label.setHorizontalAlignment(SwingConstants.CENTER);
-		grantPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 20));
+		grantPrivilege_Label.setFont(new Font("Tahoma", Font.BOLD, 18));
 		grantPrivilege_Label.setBounds(0, 0, 316, 40);
 		buttonPane.add(grantPrivilege_Label);
 		
 		loadPrivileges_Button = new JButton("Load");
-		loadPrivileges_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		loadPrivileges_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
 		loadPrivileges_Button.setBounds(770, 200, 85, 21);
 		buttonPane.add(loadPrivileges_Button);
 		
@@ -218,13 +219,13 @@ public class UserPrivilegeList extends JFrame implements WindowListener {
 		buttonPane.add(searchUser_Button);
 		
 		grantPrivilege_Button = new JButton("Grant");
-		grantPrivilege_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		grantPrivilege_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
 		grantPrivilege_Button.setBounds(110, 200, 85, 21);
 		buttonPane.add(grantPrivilege_Button);
 		
 		JButton revokePrivilege_Button = new JButton("Revoke");
-		revokePrivilege_Button.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		revokePrivilege_Button.setBounds(435, 200, 85, 21);
+		revokePrivilege_Button.setFont(new Font("Tahoma", Font.BOLD, 15));
+		revokePrivilege_Button.setBounds(435, 200, 95, 21);
 		buttonPane.add(revokePrivilege_Button);
 		
 		fieldUser = new JTextField();
